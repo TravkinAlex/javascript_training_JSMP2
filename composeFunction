@@ -1,0 +1,15 @@
+function compose(...functions) {
+  return (initialNumber) => {
+    return functions.reduce((resultAccumulator, currentFunc) => {
+      return currentFunc(resultAccumulator);
+    }, initialNumber);
+  }
+}
+
+let composedFunc = compose((a) => a + 5, (c) => c - 10);
+console.log("Call 2 +5 -10: " + composedFunc(2));
+console.log("Call 20 +5 -10: " + composedFunc(20));
+
+let doubleDecrement = compose((a) => --a, (a) => --a);
+console.log("DoubleDecrement(2): " + doubleDecrement(2));
+console.log("DoubleDecrement(3): " + doubleDecrement(3));
