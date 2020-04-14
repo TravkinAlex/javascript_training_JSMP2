@@ -1,0 +1,28 @@
+Function.prototype.bindCustom = function(thisObj, ...args) {
+  const boundFunc = (...argsInner) => this.call(thisObj, ...args, ...argsInner);
+  return boundFunc;
+}
+
+function add(a, b) {
+  return this.x + a + b;
+}
+
+console.log(add(1, 2)); // NaN
+
+const boundAdd = add.bind({ x: 1 })
+const customBoundAdd = add.bindCustom({ x: 1 })
+console.log(boundAdd(1, 2)); // 4
+console.log(customBoundAdd(1, 2)); // 4
+
+console.log(boundAdd.call({ x: 2 }, 1, 2)); // still 4
+console.log(customBoundAdd.call({ x: 2 }, 1, 2)); // still 4
+
+console.log(boundAdd.bind({ x: 2 })(1, 2)); // still 4
+console.log(customBoundAdd.bindCustom({ x: 2 })(1, 2)); // still 4
+
+const boundAddWithArg = add.bind({ x: 1 }, 10)
+const customBoundAddWithArg = add.bindCustom({ x: 1 }, 10)
+console.log(boundAddWithArg(2)); // 13
+console.log(customBoundAddWithArg(2)); // 13
+
+
